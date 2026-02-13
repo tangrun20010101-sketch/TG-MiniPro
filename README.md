@@ -20,6 +20,21 @@ node server.js
 
 游戏功能：选牌、3张相同消除、150秒倒计时、道具（撤回/洗牌/移除）、通关与失败判定。
 
+## Git 远程仓库
+
+项目已初始化 Git，首次推送到远程：
+
+```bash
+# 1. 在 GitHub/GitLab 等平台创建空仓库（不要勾选初始化 README）
+
+# 2. 添加远程并推送
+git remote add origin <你的仓库地址>
+git branch -M main
+git push -u origin main
+```
+
+后续提交：`git add -A && git commit -m "说明" && git push`
+
 ## 技术选型
 
 ### 推荐方案（简单易用）
