@@ -77,6 +77,11 @@ git push
 # - 等待部署完成
 ```
 
+#### Railway 启动命令说明：
+- 本项目 `server.js` 在**根目录**，不在 backend 文件夹
+- 已添加 `railway.json`，Railway 会自动使用 `node server.js`
+- 若仍报错，在 Railway 项目 → Settings → Deploy → Start Command 中手动设为：`node server.js`
+
 #### Render部署步骤：
 
 1. 访问 https://render.com/
@@ -85,7 +90,7 @@ git push
 4. 选择你的仓库
 5. 配置：
    - Build Command: `npm install`
-   - Start Command: `node backend/server.js`
+   - Start Command: `node server.js`
 6. 添加环境变量：`BOT_TOKEN`
 7. 点击 "Create Web Service"
 
