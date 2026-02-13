@@ -44,9 +44,13 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    res.writeHead(200, {
+    const headers = {
       'Content-Type': MIME[ext] || 'application/octet-stream'
-    });
+    };
+    if (url === '/tonconnect-manifest.json') {
+      headers['Access-Control-Allow-Origin'] = '*';
+    }
+    res.writeHead(200, headers);
     res.end(data);
   });
 });

@@ -24,7 +24,18 @@
       <div class="brand-logo">
         <img class="brand-icon" src="/assets/images/app/Logo.png" alt="Code Coin">
       </div>
+      <div id="ton-connect" class="ton-connect-wrap"></div>
     </div>
   </main>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script>
+    (function() {
+      var manifestUrl = (location.protocol === 'https:' ? location.origin : 'https://tg-minipro-production.up.railway.app') + '/tonconnect-manifest.json';
+      new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl: manifestUrl,
+        buttonRootId: 'ton-connect'
+      });
+    })();
+  </script>
 </body>
 </html>

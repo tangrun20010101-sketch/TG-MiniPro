@@ -99,6 +99,14 @@
   pointer-events: none;
 }
 
+/* TON 钱包连接按钮 */
+.ton-connect-wrap {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  min-height: 48px;
+}
+
 /* Logo：仅图标，约为按钮一半高度，居中，向上 50rpx */
 .brand-logo {
   display: flex;
@@ -288,6 +296,15 @@
 
 .header-btn-back {
   left: 4px;
+}
+
+.header-ton-connect {
+  position: absolute;
+  right: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 120px;
+  min-height: 40px;
 }
 
 .header-btn-settings {
