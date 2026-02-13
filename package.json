@@ -1,0 +1,12 @@
+{
+  "name": "telegram-fu-card-game",
+  "version": "1.0.0",
+  "description": "春节福牌消除 - Telegram Mini App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["telegram", "miniapp", "game"],
+  "license": "MIT"
+}

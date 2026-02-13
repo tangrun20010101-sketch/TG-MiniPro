@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>游戏中 - 春节福牌消除</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/game.css">
+</head>
+<body class="page-game">
+  <div id="loading" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">加载资源中...</p>
+      <p class="loading-progress">0%</p>
+    </div>
+  </div>
+
+  <div id="game-container" class="game">
+    <div class="bg-wrap">
+      <img id="game-bg" class="game-bg" src="" alt="">
+    </div>
+
+    <!-- 1. 标题区域 从左到右：返回、积分、代币、计时、设置 -->
+    <header class="game-header">
+      <button type="button" class="header-btn header-btn-back" id="btn-menu" title="返回" aria-label="返回">
+        <img src="/assets/images/icons/header/back.png" alt="返回" class="header-btn-icon">
+      </button>
+      <div class="header-stats">
+        <div class="stat-item stat-jifen">
+          <img src="/assets/images/icons/stats/jifen.png" alt="积分" class="stat-icon">
+          <span class="stat-value" id="score">0</span>
+        </div>
+        <div class="stat-item stat-daibi">
+          <img src="/assets/images/icons/stats/daibi.png" alt="代币" class="stat-icon">
+          <span class="stat-value" id="credit">0</span>
+        </div>
+      </div>
+      <button type="button" class="header-btn header-btn-settings" id="btn-settings" title="设置" aria-label="设置">
+        <img src="/assets/images/icons/header/setting.png" alt="设置" class="header-btn-icon">
+      </button>
+    </header>
+
+    <!-- 2. 卡片区域 y:60-500 卡片 90×90 边缘可溢出 -->
+    <main class="game-main">
+      <canvas id="board-canvas"></canvas>
+    </main>
+
+    <!-- 倒数计时 托盘上方 -->
+    <div class="game-timer" id="game-timer">
+      <span id="timer-value" class="timer-text">150</span><span class="timer-unit timer-text">s</span>
+    </div>
+    <!-- 3. 托盘区域 y:530-720 托盘 400×190 -->
+    <footer class="game-footer">
+      <div class="tray-wrap">
+        <div id="tray-slots" class="tray-slots">
+          <!-- 卡槽由 JS 动态生成 -->
+        </div>
+      </div>
+    </footer>
+
+    <!-- 4. 选项区域 y:740-820 -->
+    <div class="game-actions">
+      <button type="button" class="action-btn" id="prop-remove" title="移出">
+        <img src="/assets/images/icons/props/remove.png" alt="移出" class="action-btn-icon">
+      </button>
+      <button type="button" class="action-btn" id="prop-shuffle" title="洗牌">
+        <img src="/assets/images/icons/props/shuffle.png" alt="洗牌" class="action-btn-icon">
+      </button>
+      <button type="button" class="action-btn" id="prop-undo" title="撤回">
+        <img src="/assets/images/icons/props/undo.png" alt="撤回" class="action-btn-icon">
+      </button>
+    </div>
+  </div>
+
+  <div id="result-overlay" class="result-overlay" style="display:none">
+    <div class="result-card" id="result-card">
+      <h2 class="result-title" id="result-title">清盘</h2>
+      <div class="result-gains">
+        <div class="result-gain-item">
+          <img src="/assets/images/icons/stats/jifen.png" alt="积分" class="result-gain-icon">
+          <span class="result-gain-value" id="result-jifen">+ 0</span>
+        </div>
+        <div class="result-gain-item">
+          <img src="/assets/images/icons/stats/daibi.png" alt="代币" class="result-gain-icon">
+          <span class="result-gain-value" id="result-daibi">+ 0</span>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button type="button" class="result-btn" id="btn-retry">
+          <img src="/assets/images/icons/dialog/retry.png" alt="重来" class="result-btn-icon">
+          <span>重来</span>
+        </button>
+        <a href="/" class="result-btn">
+          <img src="/assets/images/icons/dialog/home.png" alt="首页" class="result-btn-icon">
+          <span>首页</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

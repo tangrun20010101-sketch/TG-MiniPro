@@ -1,0 +1,640 @@
+/* 游戏样式 */
+:root {
+  --color-primary: #FF4444;
+  --color-gold: #FFD700;
+  --color-bg: #FFF5E6;
+  --color-text: #8B0000;
+  --card-w: 90px;
+  --card-h: 90px;
+  --tray-card-w: 90px;
+  --tray-card-h: 90px;
+}
+
+/* 首页 - Figma 设计 */
+.page-index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* entra - Figma 首页设计稿 */
+.entra {
+  position: relative;
+  width: 402px;
+  height: 874px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+@media (max-width: 420px) {
+  .entra {
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+.bg-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* 背景图随屏幕自由伸缩：填满容器并保持比例 */
+.bg-wrap .game-bg {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Figma 首页：内容区域 */
+.content-figma {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+}
+
+/* 首页：参考附图比例 - 按钮为主，Logo 约为按钮一半高度 */
+.mode-buttons {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 2;
+}
+
+.mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  min-height: 160px;
+  padding: 12px;
+  text-decoration: none;
+  transition: transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mode-btn:active {
+  transform: scale(0.95);
+}
+
+.mode-btn-icon {
+  display: block;
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Logo：仅图标，约为按钮一半高度，居中，向上 50rpx */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: calc(-50 * 100vw / 750);
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.brand-icon {
+  width: 210px;
+  height: 210px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* 兼容旧版首页结构（如有引用） */
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 28px;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #a0522d;
+  margin-bottom: 32px;
+}
+
+.mode-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.mode-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  border: 2px solid var(--color-gold);
+  box-shadow: 0 4px 12px rgba(139,0,0,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mode-card:active {
+  transform: scale(0.98);
+}
+
+.mode-card.mode-free {
+  border-color: #4CAF50;
+}
+
+.mode-card.mode-bet {
+  border-color: var(--color-primary);
+}
+
+.mode-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.mode-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.mode-desc {
+  font-size: 13px;
+  color: #666;
+}
+
+/* 游戏页 */
+.page-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  border: 4px solid #eee;
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 14px;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.loading-progress {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 游戏页 402×874 固定布局 */
+.game {
+  position: relative;
+  width: 402px;
+  height: 874px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+@media (max-width: 420px) {
+  .game {
+    width: 100%;
+    height: 100vh;
+    max-height: 874px;
+  }
+}
+
+/* 1. 标题区域：返回(4,44) 设置(308,44) 90×90 */
+.game-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  background: transparent;
+}
+
+.header-btn {
+  position: absolute;
+  top: 44px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.header-btn-back {
+  left: 4px;
+}
+
+.header-btn-settings {
+  left: 308px;
+  right: auto;
+}
+
+.header-btn-icon {
+  display: block;
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+}
+
+.header-stats {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-bottom: 2px;
+}
+
+/* 积分、代币：渐变色加粗 18 号 */
+.stat-jifen .stat-value,
+.stat-daibi .stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF4444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* jifen、daibi 向下 100rpx */
+.stat-jifen {
+  margin-top: 100px;
+  margin-left: 30px;
+}
+
+.stat-daibi {
+  margin-top: 100px;
+  margin-left: 50px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--color-primary);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.stat-unit {
+  font-size: 10px;
+  color: var(--color-primary);
+  margin-left: 1px;
+}
+
+/* 2. 卡片区域 y:60-500 卡片 90×90 边缘可溢出展示 */
+.game-main {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  width: 402px;
+  height: 440px;
+  z-index: 1;
+  overflow: visible;
+}
+
+#board-canvas {
+  display: block;
+  width: 402px;
+  height: 440px;
+  touch-action: none;
+}
+
+/* 倒数计时 托盘上方 36px 渐变色 */
+.game-timer {
+  position: absolute;
+  top: 475px;
+  left: 0;
+  right: 0;
+  height: 36px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.game-timer .timer-text {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF4444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.timer-unit {
+  font-size: 36px;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+/* 3. 托盘区域 与卡片区留足间距避免截断 */
+.game-footer {
+  position: absolute;
+  top: 510px;
+  left: 0;
+  right: 0;
+  height: 210px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tray-wrap {
+  position: relative;
+  width: 420px;
+  height: 210px;
+  background: url('/assets/images/ui/tray_bg.png') center/100% 100% no-repeat;
+  background-color: transparent;
+}
+
+.tray-slots {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  height: 100%;
+  padding: 12px;
+}
+
+.tray-row {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  align-items: center;
+}
+
+/* 第一、二行均向上 5rpx */
+.tray-row-1 {
+  margin-top: 20px;
+  margin-left: 5px;
+}
+
+.tray-row-2 {
+  margin-top: -25px;
+}
+
+/* 同一行卡片间距减少 5rpx（重叠 15px） */
+.tray-slot:not(:first-child) {
+  margin-left: -15px;
+}
+
+.tray-slot {
+  width: var(--tray-card-w);
+  height: var(--tray-card-h);
+}
+
+.tray-slot.has-card {
+  border: none;
+  background: transparent;
+}
+
+.tray-wrap.eliminate-flash .tray-slots {
+  animation: eliminatePulse 0.3s ease-out;
+}
+
+@keyframes eliminatePulse {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.4); }
+  100% { filter: brightness(1); }
+}
+
+.tray-slot canvas {
+  width: 90px;
+  height: 90px;
+  display: block;
+  object-fit: contain;
+}
+
+/* 4. 选项区域 托盘下方 */
+.game-actions {
+  position: absolute;
+  top: 720px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  transition: transform 0.15s;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.action-btn-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* 结果弹窗 - Figma 清盘设计 */
+.result-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 24px;
+}
+
+.result-card {
+  position: relative;
+  width: 320px;
+  min-height: 420px;
+  max-width: 90vw;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  border: 4px solid var(--color-gold);
+  border-radius: 20px;
+  background: url('/assets/images/backgrounds/game_bg.png') center/cover no-repeat;
+  padding: 98px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.result-title {
+  position: relative;
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  margin: 0 0 24px 0;
+}
+
+.result-gains {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 0 auto 28px;
+  max-width: 200px;
+}
+
+.result-gain-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.result-gain-icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.result-gain-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.result-actions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.result-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  transition: transform 0.15s;
+}
+
+.result-btn:hover, .result-btn:active {
+  transform: scale(0.95);
+}
+
+.result-btn-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
