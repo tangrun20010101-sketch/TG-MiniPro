@@ -2,8 +2,9 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>游戏中 - 春节福牌消除</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/game.css">
 </head>
@@ -16,6 +17,7 @@
     </div>
   </div>
 
+  <div class="viewport-scaler">
   <div id="game-container" class="game">
     <div class="bg-wrap">
       <img id="game-bg" class="game-bg" src="" alt="">
@@ -73,6 +75,47 @@
       </button>
     </div>
   </div>
+  </div>
+
+  <div id="settings-overlay" class="settings-overlay" style="display:none">
+    <div class="settings-card">
+      <h2 class="settings-title">设置</h2>
+      <div class="settings-user">
+        <div class="settings-stat">
+          <img src="/assets/images/icons/stats/jifen.png" alt="积分" class="settings-stat-icon">
+          <span>总积分</span>
+          <strong id="settings-points">0</strong>
+        </div>
+        <div class="settings-stat">
+          <img src="/assets/images/icons/stats/daibi.png" alt="代币" class="settings-stat-icon">
+          <span>代币</span>
+          <strong id="settings-credits">0</strong>
+        </div>
+      </div>
+      <div class="settings-tg" id="settings-tg">
+        <span class="settings-tg-label">Telegram</span>
+        <span class="settings-tg-status" id="settings-tg-status">未连接</span>
+        <button type="button" class="settings-btn" id="btn-connect-tg">连接 Telegram</button>
+      </div>
+      <div class="settings-payment">
+        <p class="settings-payment-hint">连接 TON 钱包后可充值购买代币</p>
+        <div id="settings-ton-connect"></div>
+      </div>
+      <button type="button" class="settings-btn settings-btn-leaderboard" id="btn-leaderboard">
+        <span>📊 用户排行榜</span>
+      </button>
+      <button type="button" class="settings-close" id="btn-settings-close">关闭</button>
+    </div>
+  </div>
+
+  <div id="leaderboard-overlay" class="leaderboard-overlay" style="display:none">
+    <div class="leaderboard-card">
+      <h2 class="leaderboard-title">今日排行榜</h2>
+      <p class="leaderboard-date" id="leaderboard-date"></p>
+      <ul class="leaderboard-list" id="leaderboard-list"></ul>
+      <button type="button" class="settings-close" id="btn-leaderboard-close">关闭</button>
+    </div>
+  </div>
 
   <div id="result-overlay" class="result-overlay" style="display:none">
     <div class="result-card" id="result-card">
@@ -100,16 +143,26 @@
     </div>
   </div>
 
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <!-- 游戏优先加载，TON Connect 延后异步加载，避免 config.ton.org 超时阻塞游戏 -->
+  <script type="module" src="/js/main.js"></script>
   <script>
     (function() {
-      var manifestUrl = (location.protocol === 'https:' ? location.origin : 'https://tg-minipro-production.up.railway.app') + '/tonconnect-manifest.json';
-      new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: manifestUrl,
-        buttonRootId: 'ton-connect-game'
-      });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js';
+      s.onload = function() {
+        try {
+          if (typeof TON_CONNECT_UI !== 'undefined') {
+            var manifestUrl = location.origin + '/tonconnect-manifest.json';
+            new TON_CONNECT_UI.TonConnectUI({
+              manifestUrl: manifestUrl,
+              buttonRootId: 'ton-connect-game'
+            });
+          }
+        } catch (e) { console.warn('TON Connect 初始化失败，游戏可正常游玩:', e); }
+      };
+      document.body.appendChild(s);
     })();
   </script>
-  <script type="module" src="/js/main.js"></script>
 </body>
 </html>

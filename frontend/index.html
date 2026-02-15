@@ -2,12 +2,13 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Code Coin - 春节福牌消除</title>
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/game.css">
 </head>
 <body class="page-index">
+  <div class="viewport-scaler">
   <main class="entra entra-figma">
     <div class="bg-wrap">
       <img class="game-bg" src="/assets/images/backgrounds/game_bg.png" alt="">
@@ -15,10 +16,10 @@
     <div class="content content-figma">
       <div class="mode-buttons">
         <a href="/game.html?mode=free" class="mode-btn">
-          <img src="/assets/images/icons/props/freemode.png" alt="免费" class="mode-btn-icon">
+          <img src="/assets/images/icons/modes/xiaoxiaolemode.png" alt="消消乐" class="mode-btn-icon">
         </a>
-        <a href="/game.html?mode=bet" class="mode-btn">
-          <img src="/assets/images/icons/props/betmode.png" alt="小赌" class="mode-btn-icon">
+        <a href="/lottery.html" class="mode-btn">
+          <img src="/assets/images/icons/modes/lotterymode.png" alt="抽奖" class="mode-btn-icon">
         </a>
       </div>
       <div class="brand-logo">
@@ -27,14 +28,35 @@
       <div id="ton-connect" class="ton-connect-wrap"></div>
     </div>
   </main>
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  </div>
   <script>
     (function() {
-      var manifestUrl = (location.protocol === 'https:' ? location.origin : 'https://tg-minipro-production.up.railway.app') + '/tonconnect-manifest.json';
-      new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: manifestUrl,
-        buttonRootId: 'ton-connect'
-      });
+      var scaler = document.querySelector('.viewport-scaler');
+      var content = scaler && scaler.querySelector('.entra');
+      if (content) {
+        function fit() {
+          var vw = window.innerWidth, vh = window.innerHeight;
+          var s = Math.min(vw / 402, vh / 874, 1.5);
+          content.style.transform = 'scale(' + s + ')';
+        }
+        fit();
+        window.addEventListener('resize', fit);
+        window.addEventListener('orientationchange', function() { setTimeout(fit, 100); });
+      }
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js';
+      s.onload = function() {
+        try {
+          if (typeof TON_CONNECT_UI !== 'undefined') {
+            new TON_CONNECT_UI.TonConnectUI({
+              manifestUrl: location.origin + '/tonconnect-manifest.json',
+              buttonRootId: 'ton-connect'
+            });
+          }
+        } catch (e) { console.warn('TON Connect 初始化失败:', e); }
+      };
+      document.body.appendChild(s);
     })();
   </script>
 </body>

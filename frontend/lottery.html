@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>抽奖 - 春节福牌消除</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/game.css">
+  <link rel="stylesheet" href="/css/lottery.css">
+</head>
+<body class="page-lottery">
+  <div class="viewport-scaler">
+  <div class="lottery-container">
+    <div class="bg-wrap">
+      <img class="game-bg" src="/assets/images/backgrounds/game_bg.png" alt="">
+    </div>
+
+    <!-- 一、标题区：左返回、中金币、右设置（Figma 67-184） -->
+    <header class="lottery-header">
+      <button type="button" class="lottery-header-btn lottery-header-btn-back" id="lottery-btn-back" title="返回" aria-label="返回">
+        <img src="/assets/images/icons/header/back.png" alt="返回" class="lottery-header-btn-icon">
+      </button>
+      <div class="lottery-header-coin">
+        <img src="/assets/images/cards/icons/yun.png" alt="金币" class="lottery-header-coin-icon">
+        <span id="lottery-coin-value">0</span>
+      </div>
+      <button type="button" class="lottery-header-btn lottery-header-btn-settings" id="lottery-btn-settings" title="设置" aria-label="设置">
+        <img src="/assets/images/icons/header/setting.png" alt="设置" class="lottery-header-btn-icon">
+      </button>
+    </header>
+
+    <!-- 二、转盘区：转盘 + 中心幸运按钮 + 指针 -->
+    <section class="lottery-wheel-section">
+      <div class="lottery-wheel-wrap">
+        <img class="lottery-wheel" src="/assets/images/lottery/wheel.png" alt="转盘" id="lottery-wheel">
+        <button type="button" class="lottery-lucky-btn" id="lottery-draw-btn">
+          <span class="lottery-lucky-btn-text">幸运</span>
+          <img src="/assets/images/lottery/draw_btn.png" alt="" class="lottery-lucky-btn-icon" onerror="this.style.display='none'">
+        </button>
+        <img class="lottery-pointer" src="/assets/images/lottery/pointer.png" alt="" id="lottery-pointer" onerror="this.style.display='none'">
+      </div>
+    </section>
+
+    <!-- 四、底部统计：第一行云卡牌，第二行狮子、财神 -->
+    <footer class="lottery-footer">
+      <div class="lottery-footer-row lottery-footer-row-coin">
+        <div class="lottery-stat lottery-stat-coin">
+          <img src="/assets/images/cards/icons/yun.png" alt="金币" class="lottery-stat-icon lottery-stat-icon-coin">
+          <span id="lottery-coin-footer" class="lottery-stat-value">0</span>
+        </div>
+      </div>
+      <div class="lottery-footer-row lottery-footer-row-cards">
+        <div class="lottery-stat lottery-stat-shizi">
+          <img src="/assets/images/cards/icons/shizi.png" alt="狮子" class="lottery-stat-icon lottery-stat-icon-card">
+          <span id="lottery-shizi-count" class="lottery-stat-value">0</span>
+        </div>
+        <div class="lottery-stat lottery-stat-caishen">
+          <img src="/assets/images/cards/icons/caishen.png" alt="财神" class="lottery-stat-icon lottery-stat-icon-card">
+          <span id="lottery-caishen-count" class="lottery-stat-value">0</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+  </div>
+
+  <!-- 设置弹窗 -->
+  <div id="lottery-settings-overlay" class="settings-overlay" style="display:none">
+    <div class="settings-card">
+      <h2 class="settings-title">设置</h2>
+      <div class="settings-user">
+        <div class="settings-stat">
+          <img src="/assets/images/icons/stats/jifen.png" alt="积分" class="settings-stat-icon">
+          <span>总积分</span>
+          <strong id="lottery-settings-points">0</strong>
+        </div>
+        <div class="settings-stat">
+          <img src="/assets/images/icons/stats/daibi.png" alt="金币" class="settings-stat-icon">
+          <span>金币</span>
+          <strong id="lottery-settings-credits">0</strong>
+        </div>
+      </div>
+      <button type="button" class="settings-close" id="lottery-settings-close">关闭</button>
+    </div>
+  </div>
+
+  <script type="module" src="/js/lottery.js"></script>
+</body>
+</html>

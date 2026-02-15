@@ -24,12 +24,15 @@ frontend/assets/images/
 │       └── yun.png
 │
 ├── icons/
-│   ├── header/                     # 游戏页顶部按钮
+│   ├── header/                     # 顶部按钮（游戏页、抽奖页共用）
 │   │   ├── back.png                # 左上角返回
 │   │   └── setting.png             # 右上角设置
-│   ├── stats/                      # 标题区域积分/代币图标
+│   ├── stats/                      # 标题区域积分/金币图标
 │   │   ├── jifen.png               # 积分图标
-│   │   └── daibi.png               # 代币图标
+│   │   └── daibi.png               # 金币图标
+│   ├── modes/                      # 首页模式入口图标
+│   │   ├── xiaoxiaolemode.png      # 消消乐模式（首页「消消乐」按钮）
+│   │   └── lotterymode.png         # 抽奖模式（首页「抽奖」按钮）
 │   ├── dialog/                     # 清盘弹窗按钮
 │   │   ├── retry.png               # 重来
 │   │   └── home.png                # 首页
@@ -37,15 +40,24 @@ frontend/assets/images/
 │       ├── undo.png                # 撤回
 │       ├── shuffle.png             # 洗牌
 │       ├── remove.png              # 移出
-│       ├── freemode.png            # 免费模式（首页等）
-│       └── betmode.png             # 小赌模式（首页等）
+│       ├── freemode.png            # 免费模式（备用）
+│       └── betmode.png             # 小赌模式（备用）
+│
+├── lottery/                        # 抽奖页素材（已就绪）
+│   ├── wheel.png                   # 转盘（固定，10 等分）560×560
+│   ├── pointer.png                 # 按钮外圈指针 96×96
+│   ├── draw_btn.png                # 中心抽奖按钮（圆形）
+│   ├── wheel.svg                   # 转盘占位（备用）
+│   ├── pointer.svg                 # 指针占位（备用）
+│   ├── draw_btn.svg                # 按钮占位（备用）
+│   └── README.md                   # 素材说明
 │
 ├── ui/                             # 三、UI 背景与按钮
 │   ├── tray_bg.png                # 托盘背景（含竹叶装饰）
 │   ├── dialog_bg.png               # 清盘弹窗背景（渐变+装饰）
 │   └── buttons/                   # 按钮图片（可选，当前用 CSS）
-│       ├── btn_free.png           # 首页「免费」按钮 120×120
-│       └── btn_bet.png           # 首页「小赌」按钮 140×120
+│       ├── btn_xiaoxiaole.png     # 首页「消消乐」按钮 120×120
+│       └── btn_lottery.png        # 首页「抽奖」按钮 140×120
 │
 ├── backgrounds/                    # 四、背景
 │   └── game_bg.png                # 游戏/首页共用背景
@@ -68,14 +80,17 @@ frontend/assets/images/
 | **设置图标** | `icons/header/setting.png` | 24×24 | 游戏页右上角设置 |
 | **积分图标** | `icons/stats/jifen.png` | 32×32 | 标题区域积分 |
 | **代币图标** | `icons/stats/daibi.png` | 32×32 | 标题区域代币 |
-| **免费模式** | `icons/props/freemode.png` | 48×48 | 首页「免费」按钮（当前用 CSS 文字） |
-| **小赌模式** | `icons/props/betmode.png` | 48×48 | 首页「小赌」按钮（当前用 CSS 文字） |
+| **消消乐模式** | `icons/modes/xiaoxiaolemode.png` | 48×48 | 首页「消消乐」按钮 |
+| **抽奖模式** | `icons/modes/lotterymode.png` | 48×48 | 首页「抽奖」按钮 |
 | **托盘背景** | `ui/tray_bg.png` | 1080×200 | 底部托盘 |
 | **清盘弹窗背景** | `ui/dialog_bg.png` | 建议 400×500 | 游戏结束弹窗 |
 | **重来图标** | `icons/dialog/retry.png` | 40×40 | 清盘弹窗重来按钮 |
 | **首页图标** | `icons/dialog/home.png` | 40×40 | 清盘弹窗首页按钮 |
 | **全屏背景** | `backgrounds/game_bg.png` | 1080×1920 | 首页 + 游戏页 |
 | **品牌 Logo** | `app/Logo.png` | 64×64 | 首页 Code Coin 图标 |
+| **抽奖转盘** | `lottery/wheel.png` | 560×560 | 抽奖页转盘 |
+| **抽奖指针** | `lottery/pointer.png` | 96×96 | 按钮外圈指针 |
+| **抽奖按钮** | `lottery/draw_btn.png` | 圆形 | 中心抽奖按钮 |
 
 ---
 
@@ -110,17 +125,17 @@ frontend/assets/images/
 
 | 文件 | 用途 | 尺寸 |
 |------|------|------|
-| `ui/buttons/btn_free.png` | 首页「免费」按钮 | 120×120 |
-| `ui/buttons/btn_bet.png` | 首页「小赌」按钮 | 140×120 |
+| `ui/buttons/btn_xiaoxiaole.png` | 首页「消消乐」按钮 | 120×120 |
+| `ui/buttons/btn_lottery.png` | 首页「抽奖」按钮 | 140×120 |
 
-当前首页按钮为 **CSS 描边 + 文字**，若改用图片，将上述文件放入对应路径后，在 `index.html` 和 `game.css` 中改为图片引用即可。
+当前首页按钮使用 **图标**（`icons/modes/xiaoxiaolemode.png`、`lotterymode.png`），若改用整图按钮，将上述文件放入对应路径后，在 `index.html` 中改为图片引用即可。
 
 ### 当前实现方式
 
 | 界面 | 元素 | 实现方式 | 可替换素材 |
 |------|------|----------|------------|
-| 首页 | 免费按钮 | CSS 红底金边 + 文字「免费」 | `ui/buttons/btn_free.png` |
-| 首页 | 小赌按钮 | CSS 红底金边 + 文字「小赌」 | `ui/buttons/btn_bet.png` |
+| 首页 | 消消乐按钮 | 图标 + 链接 | `icons/modes/xiaoxiaolemode.png` |
+| 首页 | 抽奖按钮 | 图标 + 链接 | `icons/modes/lotterymode.png` |
 | 首页 | Code Coin Logo | `app/Logo.png` | 直接替换 |
 | 游戏页 | 移出/洗牌/撤回 | `icons/props/*.png` | 直接替换 |
 
@@ -139,12 +154,56 @@ frontend/assets/images/
 | `back.png` | `icons/header/back.png` | 左上角返回 |
 | `setting.png` | `icons/header/setting.png` | 右上角设置 |
 
-### 模式图标（可选）
+### 模式图标（首页）
 
-| 文件 | 用途 |
+| 文件 | 路径 | 用途 |
+|------|------|------|
+| `xiaoxiaolemode.png` | `icons/modes/xiaoxiaolemode.png` | 消消乐模式入口 |
+| `lotterymode.png` | `icons/modes/lotterymode.png` | 抽奖模式入口 |
+
+---
+
+## 🎡 抽奖页素材
+
+### 目录结构
+
+```
+lottery/
+├── wheel.png      转盘（固定，10 等分）
+├── pointer.png    按钮外圈指针
+├── draw_btn.png   中心抽奖按钮
+├── *.svg          占位备用
+└── README.md
+```
+
+### 页面结构（Figma 67-184）
+
+抽奖页 (`lottery.html`) 分为三部分：
+1. **标题区**：左圆形返回、中金币+数量、右圆形设置
+2. **转盘区**：固定转盘 + 中心金色「幸运」按钮（用户按住触发）
+3. **底部统计**：左麒麟数量、中金币、右财神数量
+
+### 交互说明
+
+- **转盘**：固定不转，10 等分（每档 36°）
+- **按钮**：在转盘中心，用户按住
+- **指针**：在按钮外圈上，松手后按服务端返回角度旋转停止（按得越久转得越久）
+
+### 素材清单
+
+| 文件 | 路径 | 尺寸 | 用途 |
+|------|------|------|------|
+| 转盘 | `lottery/wheel.png` | 560×560 | 抽奖转盘主体（固定，10 等分） |
+| 指针 | `lottery/pointer.png` | 96×96 | 按钮外圈上的指针 |
+| 抽奖按钮 | `lottery/draw_btn.png` | 圆形 | 中心「幸运」按钮，用户按住触发 |
+| 麒麟图标 | `lottery/qilin.png` | 56×56 | 底部麒麟数量展示（缺则用 caishen 占位） |
+
+### 引用位置
+
+| 资源 | 引用 |
 |------|------|
-| `freemode.png` | 免费模式入口（若用图标模式） |
-| `betmode.png` | 小赌模式入口（若用图标模式） |
+| 转盘/指针/按钮 | `lottery.html` |
+| 路径配置 | `assets.js` → `lottery.*` |
 
 ---
 
@@ -191,9 +250,10 @@ frontend/assets/images/
 
 | 资源 | 引用位置 |
 |------|----------|
-| 卡牌 | `assets.js`、`BoardRenderer.js`、`AssetLoader.js` |
+| 卡牌 | `assets.js`、`BoardRenderer.js`、`AssetLoader.js`、`lottery.js` |
 | 道具图标 | `game.html`、`assets.js` |
-| 背景 | `index.html`、`game.html`、`GameController.js`、`game.css` |
+| 抽奖素材 | `lottery.html`、`assets.js` |
+| 背景 | `index.html`、`game.html`、`lottery.html`、`game.css` |
 | Logo | `index.html` |
 
 ---

@@ -33,10 +33,10 @@ recipientAddress: 'UQB你的钱包地址xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
 import { sendPayment, getRecipientAddress } from './payment/TONConnect.js';
 
 // 支付 0.1 TON 到配置的收款地址
-await sendPayment(getRecipientAddress(), 0.1, '道具购买');
+await sendPayment(getRecipientAddress(), 0.1, '充值金币');
 ```
 
-金额单位是 TON（1 TON = 10^9 nanoTON，SDK 会自动转换）。
+金额单位是 TON（1 TON = 10^9 nanoTON，SDK 会自动转换）。充值后按经济系统规则到账金币（见 [ECONOMY_SYSTEM.md](./ECONOMY_SYSTEM.md)）。
 
 ## 注意事项
 

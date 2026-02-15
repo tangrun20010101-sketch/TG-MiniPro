@@ -87,6 +87,7 @@ Telegram-MiniPro/
 │   ├── routes/                # API路由
 │   │   ├── user.js            # 用户路由
 │   │   ├── game.js            # 游戏路由
+│   │   ├── lottery.js         # 抽奖路由
 │   │   ├── payment.js         # 支付路由
 │   │   ├── nft.js             # NFT路由
 │   │   └── ranking.js         # 排名路由
@@ -562,6 +563,36 @@ Response 200:
   }
 }
 ```
+
+---
+
+### 抽奖 API
+
+#### 抽奖
+
+```http
+POST /api/lottery/draw
+Content-Type: application/json
+
+{
+  "initData": "..."  // Telegram initData，用户身份
+}
+
+Response 200:
+{
+  "ok": true,
+  "angle": 324,       // 0, 36, 72, 108, 144, 180, 216, 252, 324, 360 之一
+  "cardType": "caishen"  // "normal" | "qilin" | "caishen"
+}
+
+Response 400:
+{
+  "ok": false,
+  "message": "金币不足"
+}
+```
+
+**概率**：麒麟 36° 1%，财神 324° 0.01%，普通 8 档均分 98.99%。详见 [LOTTERY_DESIGN.md](./LOTTERY_DESIGN.md)。
 
 ---
 

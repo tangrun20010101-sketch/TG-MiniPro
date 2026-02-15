@@ -5,7 +5,7 @@
  */
 
 const TON_CONFIG = {
-  manifestUrl: 'https://tg-minipro-production.up.railway.app/tonconnect-manifest.json',
+  manifestUrl: (typeof window !== 'undefined' ? window.location.origin : '') + '/tonconnect-manifest.json',
   // 收款地址：请替换为你的 TON 钱包地址
   recipientAddress: 'UQBxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
   // 1 TON = 10^9 nanoTON

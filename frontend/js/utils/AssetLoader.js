@@ -38,6 +38,7 @@ class AssetLoader {
       };
       img.onerror = () => {
         this.loadingPromises.delete(src);
+        this.updateProgress(); // 失败也计入进度，避免一直停在 0%
         console.error(`Failed to load image: ${src}`);
         reject(new Error(`Failed to load image: ${src}`));
       };
@@ -49,11 +50,14 @@ class AssetLoader {
 
   async preloadCards() {
     const cardTypes = Object.keys(ASSETS_CONFIG.cards.icons);
-    const promises = cardTypes.map((t) =>
-      this.loadImage(ASSETS_CONFIG.getCardImage(t))
+    const results = await Promise.allSettled(
+      cardTypes.map((t) => this.loadImage(ASSETS_CONFIG.getCardImage(t)))
     );
-    await Promise.all(promises);
-    return promises.length;
+    const ok = results.filter((r) => r.status === 'fulfilled').length;
+    if (ok < cardTypes.length) {
+      console.warn(`卡牌图片: ${ok}/${cardTypes.length} 加载成功`);
+    }
+    return ok;
   }
 
   async loadIcon(category, name) {
@@ -74,7 +78,8 @@ class AssetLoader {
     return this.loadImage(src);
   }
 
-  async preloadCriticalAssets() {
+  async preloadCriticalAssets(opts = {}) {
+    if (opts.skipPreload || opts.skip) return; // 超时重试时跳过预加载，直接进入游戏
     const cardTypes = Object.keys(ASSETS_CONFIG.cards.icons);
     this.totalAssets = cardTypes.length + 7;
     this.loadedAssets = 0;
@@ -89,7 +94,11 @@ class AssetLoader {
       this.loadBackground('game'),
       this.loadUI('trayBg')
     ];
-    await Promise.all(promises);
+    const results = await Promise.allSettled(promises);
+    const failed = results.filter((r) => r.status === 'rejected');
+    if (failed.length > 0) {
+      console.warn('部分资源加载失败，继续游戏:', failed.map((r) => r.reason?.message));
+    }
   }
 
   getLoadedImage(src) {

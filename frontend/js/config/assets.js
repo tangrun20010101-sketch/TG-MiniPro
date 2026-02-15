@@ -33,13 +33,22 @@ const ASSETS_CONFIG = {
     },
     modes: {
       freeMode: '/assets/images/icons/props/freemode.png',
-      betMode: '/assets/images/icons/props/betmode.png'
+      xiaoxiaoleMode: '/assets/images/icons/modes/xiaoxiaolemode.png',
+      lotteryMode: '/assets/images/icons/modes/lotterymode.png'
     }
   },
 
   buttons: {},
   backgrounds: {
     game: '/assets/images/backgrounds/game_bg.png'
+  },
+  lottery: {
+    wheel: '/assets/images/lottery/wheel.png',
+    wheelSvg: '/assets/images/lottery/wheel.svg',
+    pointer: '/assets/images/lottery/pointer.png',
+    pointerSvg: '/assets/images/lottery/pointer.svg',
+    drawBtn: '/assets/images/lottery/draw_btn.png',
+    drawBtnSvg: '/assets/images/lottery/draw_btn.svg'
   },
   ui: {
     trayBg: '/assets/images/ui/tray_bg.png'
