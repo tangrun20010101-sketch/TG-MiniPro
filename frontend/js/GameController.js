@@ -3,7 +3,6 @@
  */
 
 import { Game } from './game/Game.js';
-import { fetchUser, syncGameResult, fetchLeaderboard } from './api/userApi.js';
 import { getClickableCards } from './game/CardGenerator.js';
 import { BoardRenderer } from './renderer/BoardRenderer.js';
 
@@ -29,18 +28,11 @@ export class GameController {
     this.resultDaibi = document.getElementById('result-daibi');
     this.btnRetry = document.getElementById('btn-retry');
 
-    this.settingsOverlay = document.getElementById('settings-overlay');
-    this.btnSettingsClose = document.getElementById('btn-settings-close');
-    this.btnConnectTg = document.getElementById('btn-connect-tg');
-    this.btnLeaderboard = document.getElementById('btn-leaderboard');
-    this.leaderboardOverlay = document.getElementById('leaderboard-overlay');
-    this.btnLeaderboardClose = document.getElementById('btn-leaderboard-close');
-
     this.timerInterval = null;
     this.boundClick = this.handleBoardClick.bind(this);
   }
 
-  async init(opts = {}) {
+  async init() {
     const params = new URLSearchParams(window.location.search);
     this.game.mode = params.get('mode') || 'free';
 
@@ -50,7 +42,7 @@ export class GameController {
       if (progressEl) progressEl.textContent = total ? `${Math.round((loaded / total) * 100)}%` : '...';
     });
 
-    await this.renderer.init(opts);
+    await this.renderer.init();
 
     // 必须等布局完成后再 resize，否则 canvas 宽高为 0
     this.renderer.resize();
@@ -59,10 +51,7 @@ export class GameController {
       this.render();
     });
 
-    this.fitViewport();
-
     window.addEventListener('resize', () => {
-      this.fitViewport();
       this.renderer.resize();
       this.render();
     });
@@ -90,120 +79,14 @@ export class GameController {
     this.btnRetry.addEventListener('click', () => this.retry());
     this.btnMenu?.addEventListener('click', () => this.openMenu());
     this.btnSettings?.addEventListener('click', () => this.openSettings());
-    this.btnSettingsClose?.addEventListener('click', () => this.closeSettings());
-    this.btnConnectTg?.addEventListener('click', () => this.connectTelegram());
-    this.btnLeaderboard?.addEventListener('click', () => this.openLeaderboard());
-    this.btnLeaderboardClose?.addEventListener('click', () => this.closeLeaderboard());
-  }
-
-  fitViewport() {
-    const el = this.boardCanvas?.closest('.game');
-    if (!el) return;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const scale = Math.min(vw / 402, vh / 874, 1.5);
-    el.style.transform = `scale(${scale})`;
-    el.style.transformOrigin = 'center center';
   }
 
   openMenu() {
     window.location.href = '/';
   }
 
-  async openSettings() {
-    if (!this.settingsOverlay) return;
-    const pts = document.getElementById('settings-points');
-    const cred = document.getElementById('settings-credits');
-    const totalProps = (this.game?.props?.undo ?? 0) + (this.game?.props?.shuffle ?? 0) + (this.game?.props?.remove ?? 0);
-    if (pts) pts.textContent = this.game?.score ?? 0;
-    if (cred) cred.textContent = totalProps;
-    try {
-      const res = await fetchUser();
-      if (res.ok && res.user) {
-        if (pts) pts.textContent = res.user.total_score ?? this.game?.score ?? 0;
-        if (cred) cred.textContent = res.user.total_credits ?? totalProps;
-      }
-    } catch (_) {}
-    this.updateTelegramStatus();
-    this.initSettingsTonConnect();
-    this.settingsOverlay.style.display = 'flex';
-  }
-
-  closeSettings() {
-    if (this.settingsOverlay) this.settingsOverlay.style.display = 'none';
-  }
-
-  updateTelegramStatus() {
-    const statusEl = document.getElementById('settings-tg-status');
-    const btnEl = document.getElementById('btn-connect-tg');
-    const tg = window.Telegram?.WebApp;
-    if (tg?.initData) {
-      if (statusEl) {
-        statusEl.textContent = '已连接';
-        statusEl.classList.add('connected');
-      }
-      if (btnEl) btnEl.textContent = '已连接 Telegram';
-      if (btnEl) btnEl.disabled = true;
-    } else {
-      if (statusEl) {
-        statusEl.textContent = '未连接（请在 Telegram 内打开）';
-        statusEl.classList.remove('connected');
-      }
-      if (btnEl) btnEl.textContent = '连接 Telegram';
-      if (btnEl) btnEl.disabled = false;
-    }
-  }
-
-  connectTelegram() {
-    const tg = window.Telegram?.WebApp;
-    if (tg?.initData) {
-      this.updateTelegramStatus();
-      return;
-    }
-    alert('请在 Telegram 内打开此游戏，即可自动连接。\n\n在浏览器中打开时无法连接 Telegram。');
-  }
-
-  async openLeaderboard() {
-    if (!this.leaderboardOverlay) return;
-    const listEl = document.getElementById('leaderboard-list');
-    const dateEl = document.getElementById('leaderboard-date');
-    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
-    if (listEl) listEl.innerHTML = '<li class="leaderboard-empty">加载中...</li>';
-    this.leaderboardOverlay.style.display = 'flex';
-    try {
-      const res = await fetchLeaderboard();
-      if (listEl) {
-        if (!res.ok || !res.list?.length) {
-          listEl.innerHTML = '<li class="leaderboard-empty">暂无今日战绩数据</li>';
-        } else {
-          listEl.innerHTML = res.list.map((row, i) => {
-            const rankClass = row.rank <= 3 ? `rank-${row.rank}` : '';
-            const raw = row.first_name || row.username || `用户${(row.telegram_id || '').slice(-4)}`;
-            const name = String(raw).replace(/[<>&"']/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
-            return `<li class="leaderboard-item">
-              <span class="leaderboard-rank ${rankClass}">#${row.rank}</span>
-              <span class="leaderboard-name">${name}</span>
-              <span class="leaderboard-score">${row.daily_score}分</span>
-            </li>`;
-          }).join('');
-        }
-      }
-    } catch {
-      if (listEl) listEl.innerHTML = '<li class="leaderboard-empty">加载失败</li>';
-    }
-  }
-
-  closeLeaderboard() {
-    if (this.leaderboardOverlay) this.leaderboardOverlay.style.display = 'none';
-  }
-
-  initSettingsTonConnect() {
-    if (typeof TON_CONNECT_UI === 'undefined' || this._settingsTonInit) return;
-    const root = document.getElementById('settings-ton-connect');
-    if (!root) return;
-    this._settingsTonInit = true;
-    const manifestUrl = location.origin + '/tonconnect-manifest.json';
-    new TON_CONNECT_UI.TonConnectUI({ manifestUrl, buttonRootId: 'settings-ton-connect' });
+  openSettings() {
+    alert('设置功能开发中');
   }
 
   triggerEliminateEffect() {
@@ -303,12 +186,9 @@ export class GameController {
     this.stopTimer();
     this.resultOverlay.style.display = 'flex';
 
-    const title = status === 'win' ? '清盘' : status === 'lose' ? '失败' : '超时';
-    this.resultTitle.textContent = title;
+    this.resultTitle.textContent = '清盘';
     this.resultJifen.textContent = '+ ' + this.game.score;
     this.resultDaibi.textContent = '+ ' + (this.game.roundDaibiGain ?? 0);
-
-    syncGameResult(this.game.score, this.game.roundDaibiGain ?? 0, status === 'win').catch(() => {});
   }
 
   retry() {

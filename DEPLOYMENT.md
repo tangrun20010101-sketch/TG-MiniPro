@@ -17,26 +17,18 @@
 3. **配置环境变量**
    - 在项目设置中找到 "Variables"
    - 添加：`BOT_TOKEN` = 你的Bot Token
-   - 添加：`NODE_ENV` = production
-   - 添加：`PORT` = 3000（或留空，Railway 自动分配）
 
-4. **添加 PostgreSQL 数据库**
-   - 在 Railway 项目中点击 "New" → "Database" → "PostgreSQL"
-   - 部署后，Railway 会自动生成 `DATABASE_URL`
-   - 在游戏服务的 "Variables" 中，点击 "Add Variable Reference"，选择 PostgreSQL 服务的 `DATABASE_URL`
-   - 服务启动时会自动创建表（users、game_records、daily_stats），**无需预先建表**
-
-5. **获取部署地址**
+4. **获取部署地址**
    - 部署完成后，Railway会给你一个URL
    - 例如：`https://your-app.up.railway.app`
 
-6. **设置Webhook**
+5. **设置Webhook**
    - 在浏览器访问：
    ```
    https://api.telegram.org/bot<你的BOT_TOKEN>/setWebhook?url=https://your-app.up.railway.app/webhook
    ```
 
-7. **完成！** 🎉
+6. **完成！** 🎉
    - 在Telegram中测试你的Bot
 
 ---

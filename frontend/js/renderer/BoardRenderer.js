@@ -22,8 +22,8 @@ export class BoardRenderer {
     this.loader.setProgressCallback(callback);
   }
 
-  async init(opts = {}) {
-    await this.loader.preloadCriticalAssets(opts);
+  async init() {
+    await this.loader.preloadCriticalAssets();
   }
 
   resize() {

@@ -2,27 +2,21 @@
 
 ## 项目简介
 
-这是一个基于Telegram平台的Mini App小程序，类似《羊了个羊》的消除类游戏，主题是春节福牌。玩家需要在150秒内消除场上的所有福牌，通过策略和运气来通关。经济体系为三层通兑：积分→金币→USDC，卡牌分普通/麒麟/财神，可与金币、USDC 通兑。
+这是一个基于Telegram平台的Mini App小程序，类似《羊了个羊》的消除类游戏，主题是春节福牌。玩家需要在150秒内消除场上的所有福牌，通过策略和运气来通关，获得福签、NFT等奖励。
 
 ## 快速运行
 
 ```bash
 # 1. 进入项目目录
-cd "Telegram MiniPro"
+cd Telegram-MiniPro
 
-# 2. 安装依赖
-npm install
+# 2. 启动游戏服务器（无需额外依赖）
+node server.js
 
-# 3. 启动服务器
-npm start
-
-# 4. 浏览器访问
+# 3. 浏览器访问
 # 首页: http://localhost:3456
-# 游戏: http://localhost:3456/game.html?mode=free
-# 抽奖: http://localhost:3456/lottery.html
+# 游戏: http://localhost:3456/game.html
 ```
-
-**本地测试说明**：所有地址（API、manifest）会根据当前访问域名自动切换，无需修改配置。本地用 localhost，部署后自动用 Railway 域名。
 
 游戏功能：选牌、3张相同消除、150秒倒计时、道具（撤回/洗牌/移除）、通关与失败判定。
 
@@ -873,10 +867,6 @@ setWebhook();
 
 ## 修复记录
 
-### Telegram 视口适配（2025-02）
-**现象：** 在 Telegram 内打开游戏时，页面被裁切，右侧和底部需滚动才能看到。  
-**修复：** 添加 viewport-scaler，根据屏幕尺寸对 402×874 设计稿进行 scale 缩放，使内容完整显示在视口内，无滚动条。
-
 ### 卡牌遮挡判定优化（2025-02）
 **现象：** 左上角等位置视觉上未被遮挡的牌无法点击收入托盘。  
 **原因：** 重叠判定阈值过小（8px），边缘轻微重叠即被判为遮挡。  
@@ -972,8 +962,6 @@ pm2 monit
 
 ### 核心文档
 - **🎮 游戏设计文档：** [GAME_DESIGN.md](./GAME_DESIGN.md) - 完整的游戏规则和设计说明
-- **💰 通兑经济系统：** [ECONOMY_SYSTEM.md](./ECONOMY_SYSTEM.md) - 货币三层、卡牌品质、金币用途、通兑规则
-- **🎡 抽奖系统设计：** [LOTTERY_DESIGN.md](./LOTTERY_DESIGN.md) - 抽奖交互、概率、API 规格
 - **📋 产品方案：** [PRODUCT_PLAN.md](./PRODUCT_PLAN.md) - 产品功能、UI/UX设计、用户体验流程
 - **🏗️ 技术文档：** [TECHNICAL_DOC.md](./TECHNICAL_DOC.md) - 技术架构、API设计、数据库设计
 - **📅 开发计划：** [DEVELOPMENT_PLAN.md](./DEVELOPMENT_PLAN.md) - 详细的开发步骤、时间安排、里程碑
@@ -988,7 +976,6 @@ pm2 monit
 
 ## 更新日志
 
-- 2026-02-13: 新增通兑经济系统设计 (ECONOMY_SYSTEM.md)：三层货币（USDC/金币/积分）、三层卡牌（普通/麒麟/财神）、金币用途（复活/卡槽/抽卡）
 - 2026-02-12: 继续开发：托盘使用 tray_bg 背景、加载进度、触摸支持、菜单/设置按钮、消除动画、可点击牌高亮
 - 2026-02-12: 新增 Figma 设计规范文档 (FIGMA_DESIGN_SPEC.md)，对接 CodeCoin 设计稿
 - 2026-02-09: 项目初始化，创建项目规划文档

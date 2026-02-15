@@ -15,22 +15,6 @@ html, body {
   user-select: none;
 }
 
-/* Telegram Mini App 视口适配：缩放内容以填满屏幕 */
-.viewport-scaler {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.viewport-scaler > * {
-  transform-origin: center center;
-}
-
 img {
   max-width: 100%;
   vertical-align: middle;
